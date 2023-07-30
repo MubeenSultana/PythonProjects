@@ -1,0 +1,72 @@
+def add_to_cart(product, price, quantity):
+    if product in shopping_cart:
+        shopping_cart[product]["quantity"] += quantity
+        #print(shopping_cart)
+       
+    else:
+        shopping_cart[product] = {"price": price, "quantity": quantity}
+    print(f"{quantity} {product}(s) added to the cart.")
+
+def remove_from_cart(product, quantity):
+    if product in shopping_cart:
+        current_quantity = shopping_cart[product]["quantity"]
+        if quantity >= current_quantity:
+            del shopping_cart[product]
+        else:
+            shopping_cart[product]["quantity"] -= quantity
+        print(f"{quantity} {product}(s) removed from the cart.")
+    else:
+        print("Product not found in the cart.")
+
+def view_cart():
+    if shopping_cart:
+        print("\n===== Shopping Cart =====")
+        total_price = 0
+        for product, details in shopping_cart.items():
+            price = details["price"]
+            quantity = details["quantity"]
+            subtotal = price * quantity
+            total_price += subtotal
+            print(f"{product}: {quantity} x ${price:.2f} = ${subtotal:.2f}")
+        print(f"Total Price: ${total_price:.2f}")
+    else:
+        print("Your shopping cart is empty.")
+
+if __name__ == "__main__":
+    shopping_cart = {}
+    products = {
+        "apple": 0.5,
+        "banana": 0.3,
+        "orange": 0.4,
+        "chocolate": 1.5,
+        "book": 10.0,
+        "pen":5.0
+    }
+    
+
+    while True:
+        print("\n1. Add Product to Cart")
+        print("2. Remove Product from Cart")
+        print("3. View Shopping Cart")
+        print("4. Exit")
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            product = input("Enter the product name: ").lower()
+            if product in products:
+                price = products[product]
+                quantity = int(input("Enter the quantity: "))
+                add_to_cart(product, price, quantity)
+            else:
+                print("Product not found.")
+        elif choice == "2":
+            product = input("Enter the product name to remove: ").lower()
+            quantity = int(input("Enter the quantity to remove: "))
+            remove_from_cart(product, quantity)
+        elif choice == "3":
+            view_cart()
+        elif choice == "4":
+            print("Exiting Shopping Cart. Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
